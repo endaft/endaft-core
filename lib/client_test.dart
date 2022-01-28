@@ -33,6 +33,6 @@ class TestClientConfig extends BaseClientConfig {
   Uri resolveUrl(String relative) => Uri.parse(baseUrl).resolve(relative);
 }
 
-BaseClientConfig getTestConfig([Map<String, String>? overrides]) {
+TestClientConfig getTestConfig([Map<String, String>? overrides]) {
   return TestClientConfig(getTestEnv(overrides));
 }

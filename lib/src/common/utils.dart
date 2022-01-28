@@ -12,7 +12,12 @@ typedef ThingGenerator<T> = T Function(
 );
 
 final _rnd = Random();
-int randomInt(int min, int max) => (_rnd.nextInt(max) + min).floor();
+int randomInt(int min, int max) {
+  if (min >= max) {
+    throw AssertionError('The max value must be great than the min value.');
+  }
+  return (_rnd.nextInt(max - min) + min).floor();
+}
 
 bool randomBool() => (randomInt(0, 11) / 5).floor() == 1;
 

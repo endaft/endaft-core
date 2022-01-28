@@ -11,8 +11,8 @@ abstract class BaseClientRegistry<TConfig extends BaseClientConfig>
   void setup(TConfig config) {
     // Register default implementations here
     injector
-      ..registerSingleton<http.Client>(() => http.Client())
       ..registerSingleton<TConfig>(() => config)
+      ..registerSingleton<http.Client>(() => http.Client())
       ..register<BaseAppApi>(withConfig((c) => BaseAppApi(
             config: c,
             httpClient: httpClient,

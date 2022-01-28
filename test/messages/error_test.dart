@@ -60,7 +60,17 @@ void main() {
       expect(error.context, containsValue(key));
     });
 
-    test('Verifies BadContextError Works As Expected', () {
+    test('Verifies BadContextError.missingKey Works As Expected', () {
+      final key = 'foo';
+      final message = 'Missing key';
+      final error = BadContextError.missingKey(key);
+
+      expect(error, isNotNull);
+      expect(error.message, endsWith(message));
+      expect(error.context, containsValue(key));
+    });
+
+    test('Verifies MissingConfigError Works As Expected', () {
       final name = 'foo';
       final error = MissingConfigError(name);
 
