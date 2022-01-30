@@ -12,8 +12,7 @@ dependencies:
   injector: ^2.0.0
   equatable: ^2.0.3
   json_annotation: ^4.4.0
-  aws_lambda_dart_runtime:
-    git: https://github.com/katallaxie/aws-lambda-dart-runtime
+  aws_lambda_dart_runtime: ^1.1.0
 
 dev_dependencies:
   test: ^1.20.1
