@@ -11,14 +11,20 @@ jobs:
   core:
     name: 🤖 core
     runs-on: ubuntu-latest
-    container:
-      image: google/dart:latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: hrishikesh-kadam/setup-lcov@v1
+      - name: 👇 Checkout
+        uses: actions/checkout@v2
+
+      - name: 📦 Setup Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: 📦 Setup LCOV
+        uses: hrishikesh-kadam/setup-lcov@v1
+
       - name: 👷 make
         run: make
+
       - name: ✍🏼 version
         uses: endaft/action-yamler@v1.0.2
         with:
@@ -27,6 +33,7 @@ jobs:
           set: -dev.${{ github.run_number }}
           get: true
           append: true
+
       # - name: 🚀 publish dev
       #   uses: RatakondalaArun/pub.dev-cd@v1.0.0
       #   with:
