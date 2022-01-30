@@ -26,7 +26,7 @@ jobs:
         run: make
 
       - name: ✍🏼 version
-        uses: endaft/action-yamler@v1.0.3
+        uses: endaft/action-yamler@v1.0.4
         with:
           file: ./pubspec.yaml
           path: version
