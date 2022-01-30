@@ -1,0 +1,33 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  core:
+    name: 🤖 core
+    runs-on: ubuntu-latest
+    container:
+      image: google/dart:latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hrishikesh-kadam/setup-lcov@v1
+      - name: 👷 make
+        run: make
+      - name: ✍🏼 version
+        uses: endaft/action-yamler@v1.0.2
+        with:
+          file: ./pubspec.yaml
+          path: version
+          set: -dev.${{ github.run_number }}
+          get: true
+          append: true
+      # - name: 🚀 publish dev
+      #   uses: RatakondalaArun/pub.dev-cd@v1.0.0
+      #   with:
+      #     creditionals: ${{secrets.PUB_DEV_CREDENTIALS}}
