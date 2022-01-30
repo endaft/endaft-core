@@ -34,7 +34,7 @@ jobs:
           get: true
           append: true
 
-      # - name: 🚀 publish dev
-      #   uses: RatakondalaArun/pub.dev-cd@v1.0.0
-      #   with:
-      #     creditionals: ${{secrets.PUB_DEV_CREDENTIALS}}
+      - name: 🚀 publish dev
+        uses: RatakondalaArun/pub.dev-cd@v1.0.0
+        with:
+          creditionals: ${{secrets.PUB_DEV_CREDENTIALS}}
