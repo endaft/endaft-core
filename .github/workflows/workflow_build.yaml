@@ -52,7 +52,7 @@ jobs:
       - name: ✍🏼 Prepend Changelog
         uses: endaft/action-prepend@v0.0.4
         with:
-          file_target: CHANGELOG.md
+          file_target: ./CHANGELOG.md
           value_in: ${{ steps.changelog.outputs.changelog }}
           is_file: "false"
 
