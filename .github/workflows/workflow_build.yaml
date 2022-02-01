@@ -56,7 +56,7 @@ jobs:
           value_in: ${{ steps.changelog.outputs.changelog }}
           is_file: "false"
 
-      - name: 🚀 publish dev
+      - name: 🚀 Publish
         uses: RatakondalaArun/pub.dev-cd@v1.0.0
         with:
           creditionals: ${{secrets.PUB_DEV_CREDENTIALS}}
