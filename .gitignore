@@ -12,3 +12,7 @@ pubspec.lock
 
 # OSX
 .DS_Store
+
+# Other
+.env
+.secrets

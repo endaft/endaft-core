@@ -22,18 +22,39 @@ jobs:
       - name: 📦 Setup LCOV
         uses: hrishikesh-kadam/setup-lcov@v1
 
-      - name: 👷 Make
-        run: make
-
       - name: ✍🏼 Version
         id: version
         uses: endaft/action-yamler@v1.0.6
         with:
           file: ./pubspec.yaml
           path: version
-          set: -dev.1
+          set: ${{ format('-dev.{0}', github.run_number) }}
           get: true
           append: true
+
+      - name: 👷 Make
+        run: make
+
+      - name: 🏷 Tags
+        uses: endaft/action-dev-tagger@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          prefix: ${{ format('{0}-dev.', steps.version.outputs.value_old) }}
+          tag: ${{ format('{0}-dev.{1}', steps.version.outputs.value_old, github.run_number) }}
+
+      - name: ✍🏼 Changelog
+        id: changelog
+        uses: loopwerk/tag-changelog@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config_file: .github/tag-changelog-config.js
+
+      - name: ✍🏼 Prepend Changelog
+        uses: endaft/action-prepend@v0.0.4
+        with:
+          file_target: CHANGELOG.md
+          value_in: ${{ steps.changelog.outputs.changelog }}
+          is_file: "false"
 
       - name: 🚀 publish dev
         uses: RatakondalaArun/pub.dev-cd@v1.0.0

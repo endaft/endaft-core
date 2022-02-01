@@ -1,0 +1,7 @@
+{
+  "action": "workflow_build",
+  "inputs": {
+    "tags": null,
+    "branch": "refs/heads/main"
+  }
+}
