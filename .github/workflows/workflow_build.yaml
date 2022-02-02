@@ -64,3 +64,9 @@ jobs:
         uses: RatakondalaArun/pub.dev-cd@v1.0.0
         with:
           creditionals: ${{secrets.PUB_DEV_CREDENTIALS}}
+
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          flags: unittests
