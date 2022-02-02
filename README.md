@@ -1,4 +1,4 @@
-[![build](https://github.com/endaft/endaft-core/actions/workflows/workflow_build.yaml/badge.svg)](https://github.com/endaft/endaft-core/actions/workflows/workflow_build.yaml)
+[![build](https://github.com/endaft/endaft-core/actions/workflows/workflow_build.yaml/badge.svg)](https://github.com/endaft/endaft-core/actions/workflows/workflow_build.yaml) [![codecov](https://codecov.io/gh/endaft/endaft-core/branch/main/graph/badge.svg?token=66JAV7JV1K)](https://codecov.io/gh/endaft/endaft-core)
 
 # endaft-core
 
