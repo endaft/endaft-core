@@ -26,7 +26,7 @@ jobs:
 
       - name: ✍🏼 Version
         id: version
-        uses: endaft/action-yamler@v1.0.8
+        uses: endaft/action-yamler@v1.0.9
         with:
           file: ./pubspec.yaml
           path: version
@@ -39,7 +39,7 @@ jobs:
         run: make
 
       - name: 🏷 Tags
-        uses: endaft/action-dev-tagger@v1.0.7
+        uses: endaft/action-dev-tagger@v1.0.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           prefix: ${{ format('v{0}-dev.', steps.version.outputs.value_old) }}
@@ -47,13 +47,13 @@ jobs:
 
       - name: ✍🏼 Changelog
         id: changelog
-        uses: endaft/action-changelog@v0.0.1
+        uses: endaft/action-changelog@v0.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config_file: .github/changelog-config.js
 
       - name: ✍🏼 Prepend Changelog
-        uses: endaft/action-prepend@v0.0.8
+        uses: endaft/action-prepend@v0.0.9
         with:
           file_target: CHANGELOG.md
           value_in: ${{ steps.changelog.outputs.changelog }}
