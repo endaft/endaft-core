@@ -23,5 +23,9 @@ clean:
 docs:
 	dartdoc
 
+analyze:
+	dart pub global activate pana
+	pana --no-warning . >pana.md
+
 act-build:
 	act --bind --rm --directory "$(PWD)" --env-file "$(PWD)/.act/.env" --eventpath "$(PWD)/.act/push_main.json" --container-architecture linux/arm64
