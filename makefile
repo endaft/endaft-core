@@ -3,7 +3,6 @@ ifndef VERBOSE
 endif
 
 test: all
-	dart pub global deactivate coverage
 	dart pub global activate coverage
 	dart test --chain-stack-traces --coverage=coverage
 	format_coverage --packages=.packages --report-on=lib --lcov -o coverage/lcov.info -i coverage
