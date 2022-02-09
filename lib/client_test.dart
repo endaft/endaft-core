@@ -31,6 +31,22 @@ class TestClientConfig extends BaseClientConfig {
 
   @override
   Uri resolveUrl(String relative) => Uri.parse(baseUrl).resolve(relative);
+
+  @override
+  String get cognitoClientId => getOrThrow('AWS_COGNITO_CLIENT_ID');
+
+  @override
+  String? get cognitoClientSecret => getOrThrow('AWS_COGNITO_CLIENT_SECRET');
+
+  @override
+  String? get cognitoEndpoint => getOrThrow('AWS_COGNITO_ENDPOINT');
+
+  @override
+  String get cognitoUserPoolId => getOrThrow('AWS_COGNITO_USER_POOL_ID');
+
+  @override
+  bool get cognitoEnabled =>
+      getOr('AWS_COGNITO_ENABLED', fallback: 'true') == 'true';
 }
 
 TestClientConfig getTestConfig([Map<String, String>? overrides]) {

@@ -18,6 +18,7 @@ dependencies:
   collection: ^1.15.0
   json_annotation: ^4.4.0
   aws_lambda_dart_runtime: ^1.1.0
+  amazon_cognito_identity_dart_2: ^1.0.5
 dev_dependencies:
   test: ^1.20.1
   lints: ^1.0.1

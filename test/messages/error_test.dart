@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:http/http.dart';
 import 'package:test/test.dart';
 import 'package:endaft_core/client.dart';
 
@@ -32,6 +33,39 @@ void main() {
       expect(response.statusCode, HttpStatus.internalServerError);
       expect(response.context, equals(error.context));
       expect(response.stackTrace, equals(error.stackTrace!.toStringArray()));
+    });
+
+    test('Verifies HttpError fromResponse Works As Expected', () {
+      final reason = 'Bad Request';
+      final reqUri = Uri.parse('http://testing');
+      final response = Response(
+        '',
+        400,
+        reasonPhrase: reason,
+        request: Request('GET', reqUri),
+      );
+      final error = HttpError.fromResponse(response);
+
+      expect(error, isNotNull);
+      expect(error, isA<HttpError>());
+      expect(error.uri, equals(reqUri));
+      expect(error.message, reason);
+      expect(error.statusCode, equals(400));
+    });
+
+    test(
+        'Verifies HttpError fromResponse Sans Reason Or Request Works As Expected',
+        () {
+      final response = Response('', 400);
+      final error = HttpError.fromResponse(response);
+      final reqUri = Uri.parse('http://unknown_url');
+      final reason = 'HTTP Status 400';
+
+      expect(error, isNotNull);
+      expect(error, isA<HttpError>());
+      expect(error.uri, equals(reqUri));
+      expect(error.message, reason);
+      expect(error.statusCode, equals(400));
     });
 
     test('Verifies SecurityError Works As Expected', () {

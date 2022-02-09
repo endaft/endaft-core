@@ -35,6 +35,21 @@ class MockConfig extends BaseClientConfig {
 
   @override
   int get timeoutSeconds => 30;
+
+  @override
+  String get cognitoClientId => '1234567890FAKECLIENTID0987654321';
+
+  @override
+  String? get cognitoClientSecret => '1234567890FAKECLIENTSECRET0987654321';
+
+  @override
+  String? get cognitoEndpoint => 'https://testing.cognito.auth.test';
+
+  @override
+  String get cognitoUserPoolId => '1234567890_FAKEUSERPOOLID_0987654321';
+
+  @override
+  bool get cognitoEnabled => true;
 }
 
 class MockRegistry extends BaseClientRegistry<MockConfig> {}

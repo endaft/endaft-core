@@ -3,12 +3,18 @@ ifndef VERBOSE
 endif
 
 test: all
+	dart pub global deactivate coverage
 	dart pub global activate coverage
 	dart test --chain-stack-traces --coverage=coverage
 	format_coverage --packages=.packages --report-on=lib --lcov -o coverage/lcov.info -i coverage
 	genhtml -o ./coverage/report ./coverage/lcov.info
 
-all: clean deps
+dev-test:
+	dart test --chain-stack-traces --coverage=coverage
+	format_coverage --packages=.packages --report-on=lib --lcov -o coverage/lcov.info -i coverage
+	genhtml -o ./coverage/report ./coverage/lcov.info
+
+all: deps
 	dart fix --apply
 	dart format .
 	# dart analyze --fatal-infos
@@ -18,7 +24,7 @@ deps: clean
 	dart pub get >>/dev/null
 
 clean:
-	rm -rf .dart_tool doc .packages pubspec.lock coverage
+	rm -rf doc coverage
 
 docs:
 	dartdoc

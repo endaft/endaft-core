@@ -5,6 +5,7 @@ import 'dart:collection';
 
 import '../messages/all.dart';
 
+/// The base configuration model
 abstract class BaseConfig {
   late final UnmodifiableMapView<String, String> _env;
 
@@ -12,6 +13,17 @@ abstract class BaseConfig {
     _env = UnmodifiableMapView<String, String>(env ?? {});
   }
 
+  /// Gets a value by [name] from the underlying config map, or the [fallback]
+  /// if the underlying map does not contain the [name].
+  String getOr(String name, {required String fallback}) {
+    if (!_env.containsKey(name)) {
+      return fallback;
+    }
+    return _env[name]!;
+  }
+
+  /// Gets a value by [name] from the underlying config map, or throws a
+  /// [MissingConfigError] if the underlying map does not contain the [name].
   String getOrThrow(String name) {
     if (!_env.containsKey(name)) {
       throw MissingConfigError(name);

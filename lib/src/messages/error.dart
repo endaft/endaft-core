@@ -1,5 +1,6 @@
 import 'dart:io' if (dart.library.html) 'dart:html' show HttpStatus;
 
+import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -121,6 +122,14 @@ class HttpError extends AppError {
 
   final Uri uri;
   final int statusCode;
+
+  factory HttpError.fromResponse(Response response) {
+    return HttpError(
+      message: response.reasonPhrase ?? 'HTTP Status ${response.statusCode}',
+      uri: response.request?.url ?? Uri(scheme: 'http', host: 'unknown_url'),
+      statusCode: response.statusCode,
+    );
+  }
 
   @override
   Map<String, dynamic> get context => <String, dynamic>{
