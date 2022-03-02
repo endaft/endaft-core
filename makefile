@@ -8,10 +8,13 @@ test: all
 	format_coverage --packages=.packages --report-on=lib --lcov -o coverage/lcov.info -i coverage
 	genhtml -o ./coverage/report ./coverage/lcov.info
 
-dev-test:
+dev-test: clean dev-gen
 	dart test --chain-stack-traces --coverage=coverage
 	format_coverage --packages=.packages --report-on=lib --lcov -o coverage/lcov.info -i coverage
 	genhtml -o ./coverage/report ./coverage/lcov.info
+
+dev-gen:
+	dart run build_runner build --delete-conflicting-outputs
 
 all: deps
 	dart fix --apply
@@ -23,7 +26,8 @@ deps: clean
 	dart pub get >>/dev/null
 
 clean:
-	rm -rf doc coverage
+	rm -rf doc
+	rm -rf coverage
 
 docs:
 	dartdoc
