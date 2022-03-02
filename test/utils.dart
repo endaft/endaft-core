@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:test/test.dart';
-import 'package:endaft_core/client.dart' as client;
+import 'package:endaft_core/common.dart';
 
-/// Tests that an object properly converts to JSON and back again,
-/// [expect]ing the original [equals] the deserialized.
-void testJson<T extends client.AppContract>({
+/// Tests that an object created by a [ctor] properly converts to JSON and back
+/// again using [fromJson], and [expect]ing the original [equals] the deserialized.
+/// An additional [expect]ations can be provided through [expects].
+void testJson<T extends AppContract>({
   required T Function() ctor,
   required T Function(Map<String, dynamic>) fromJson,
   void Function(T ctor, T json)? expects,

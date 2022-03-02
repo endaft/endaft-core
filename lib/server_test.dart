@@ -9,6 +9,7 @@ import 'package:path/path.dart' as path;
 import 'package:aws_lambda_dart_runtime/runtime/context.dart';
 
 import 'server.dart';
+export 'server.dart';
 export 'matchers.dart';
 export 'src/common/config.dart';
 export 'src/mocks/backend/all.dart';
@@ -110,6 +111,113 @@ class TestServerConfig extends BaseServerConfig {
       : super(env ?? <String, String>{});
 }
 
-BaseServerConfig getTestConfig([Map<String, String>? overrides]) {
+TestServerConfig getTestConfig([Map<String, String>? overrides]) {
   return TestServerConfig(getTestEnv(overrides));
+}
+
+CloudFrontOriginRequestEvent makeOriginEvent({
+  CloudFrontHeaders? originCustomHeaders,
+  CloudFrontHeaders? requestCustomHeaders,
+  String? requestUri,
+  String? requestHost,
+}) {
+  final domainName = '${randomId()}-test.cloudfront.aws.com';
+  return CloudFrontOriginRequestEvent(
+    records: <CloudFrontRecords>[
+      CloudFrontRecords(
+        cf: CloudFront(
+          config: CloudFrontConfig(
+            distributionDomainName: domainName,
+            distributionId: randomId(),
+            eventType: 'origin-request',
+            requestId: randomId(32),
+          ),
+          request: CloudFrontRequest(
+            uri: requestUri ?? '/',
+            method: 'GET',
+            queryString: '',
+            clientIp: '127.0.0.1',
+            origin: <String, CloudFrontOrigin>{
+              'custom': CloudFrontOrigin(
+                customHeaders: originCustomHeaders ??
+                    CloudFrontHeaders(
+                      headers: {},
+                    ),
+                domainName: requestHost ?? domainName,
+                keepAliveTimeout: 30,
+                path: requestUri ?? '/',
+                port: 80,
+                protocol: 'https',
+                readTimeout: 30,
+                sslProtocols: <String>['TLS_1.2'],
+              )
+            },
+            body: CloudFrontRequestBody(
+              data: '',
+              inputTruncated: false,
+              action: CloudFrontBodyAction.readOnly,
+              encoding: CloudFrontBodyEncoding.text,
+            ),
+            headers: CloudFrontHeaders(
+              headers: <String, List<Map<String, String>>>{
+                'Host': <Map<String, String>>[
+                  <String, String>{'Host': requestHost ?? domainName},
+                ],
+                ...requestCustomHeaders?.headers ?? {},
+              },
+            ),
+          ),
+        ),
+      )
+    ],
+  );
+}
+
+ApiGatewayEvent makeApiEvent({
+  String body = '',
+  bool isBase64Encoded = false,
+  List<String> cookies = const [],
+  Map<String, String> headers = const {},
+  Map<String, String> pathParameters = const {},
+  Map<String, String> stageVariables = const {},
+  Map<String, String> queryStringParameters = const {},
+}) {
+  final now = DateTime.now();
+  final domainPrefix = 'test';
+  final domainName = 'test.my-great.app';
+
+  return ApiGatewayEvent(
+    version: '2.0',
+    routeKey: r'$default',
+    rawPath: '/',
+    rawQueryString: '',
+    cookies: cookies,
+    headers: headers,
+    queryStringParameters: queryStringParameters,
+    requestContext: ApiGatewayRequestContext(
+      accountId: randomId(),
+      apiId: randomId(6),
+      authorizer: <String, ApiGatewayAuthorizer>{
+        'cognito': ApiGatewayAuthorizer(claims: {}, scopes: []),
+      },
+      domainName: domainName,
+      domainPrefix: domainPrefix,
+      http: <String, String>{
+        "method": "POST",
+        "path": "/my/path",
+        "protocol": "HTTP/1.1",
+        "sourceIp": "IP",
+        "userAgent": "agent",
+      },
+      requestId: randomId(),
+      routeKey: r'$default',
+      stage: 'test',
+      time: now,
+      timeEpoch: (now.millisecondsSinceEpoch / 1000).floor(),
+    ),
+    body: body,
+    isBase64Encoded: isBase64Encoded,
+    pathParameters: pathParameters,
+    stageVariables: stageVariables,
+  );
 }

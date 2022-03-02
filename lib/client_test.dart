@@ -6,7 +6,7 @@ import 'src/frontend/all.dart';
 export 'src/frontend/all.dart';
 
 export 'matchers.dart';
-export 'src/mocks/frontend/http_client.dart';
+export 'src/mocks/frontend/all.dart';
 
 Map<String, String> getTestEnv([Map<String, String>? overrides]) {
   return UnmodifiableMapView(Map<String, String>.from(<String, String>{})

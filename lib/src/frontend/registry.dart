@@ -22,9 +22,6 @@ abstract class BaseClientRegistry<TConfig extends BaseClientConfig>
   /// Gets the [http.Client] for API requests.
   http.Client get httpClient => injector.get<http.Client>();
 
-  /// Gets the [BaseClientConfig] for API requests.
-  TConfig get config => injector.get<TConfig>();
-
   /// Gets the [BaseAppApi] for handling requests.
   BaseAppApi get appApi => injector.get<BaseAppApi>();
 }

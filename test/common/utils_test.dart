@@ -14,6 +14,92 @@ void main() {
       expect(randomSet.every((v) => !v), isFalse);
     });
 
+    test('Verifies randomId Works As Expected', () {
+      for (var i = 4; i < 128; i++) {
+        String? id;
+        expect(() {
+          id = randomId(i);
+        }, returnsNormally);
+        expect(id, isNotNull);
+        expect(id, hasLength(i));
+        for (var rune in id!.runes) {
+          final char = String.fromCharCode(rune);
+          expect(
+              char,
+              isIn(<String>[
+                ...[
+                  '0',
+                  '1',
+                  '2',
+                  '3',
+                  '4',
+                  '5',
+                  '6',
+                  '7',
+                  '8',
+                  '9'
+                ], // Numbers
+                ...[
+                  'A',
+                  'B',
+                  'C',
+                  'D',
+                  'E',
+                  'F',
+                  'G',
+                  'H',
+                  'I',
+                  'J',
+                  'K',
+                  'L',
+                  'M',
+                  'N',
+                  'O',
+                  'P',
+                  'Q',
+                  'R',
+                  'S',
+                  'T',
+                  'U',
+                  'V',
+                  'W',
+                  'X',
+                  'Y',
+                  'Z',
+                ], // Upper Case
+                ...[
+                  'a',
+                  'b',
+                  'c',
+                  'd',
+                  'e',
+                  'f',
+                  'g',
+                  'h',
+                  'i',
+                  'j',
+                  'k',
+                  'l',
+                  'm',
+                  'n',
+                  'o',
+                  'p',
+                  'q',
+                  'r',
+                  's',
+                  't',
+                  'u',
+                  'v',
+                  'w',
+                  'x',
+                  'y',
+                  'z',
+                ], // Lower Case
+              ]));
+        }
+      }
+    });
+
     test('Verifies randomInt Works As Expected', () {
       final factor = 5;
       final randomSet = List<int>.generate(
@@ -30,7 +116,9 @@ void main() {
     });
 
     test('Verifies randomInt Throws When min > max', () {
-      expect(() => randomInt(10, 2), throwsA(isA<AssertionError>()));
+      expect(() => randomInt(1, 2), returnsNormally);
+      expect(() => randomInt(2, 2), throwsArgumentError);
+      expect(() => randomInt(3, 2), throwsArgumentError);
     });
 
     test('Verifies makeFakes Works As Expected', () {

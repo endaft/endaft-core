@@ -27,6 +27,9 @@ abstract class Registry<TConfig extends BaseConfig> {
     setup(config);
   }
 
+  /// Gets the [TConfig] used by the registry and its components.
+  TConfig get config => injector.get<TConfig>();
+
   /// Registers a singleton builder for an object
   /// that requires configuration values
   Factory<T> withConfig<T>(
