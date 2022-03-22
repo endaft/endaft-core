@@ -9,9 +9,28 @@ void main() {
   group('Api Handler Tests', () {
     setUp(() {
       TestRegistry().useConfig(getTestConfig(const {}));
+      TestRegistry().injector.removeByKey<Runtime>();
+      TestRegistry().injector.registerSingleton<Runtime>(() => MockRuntime());
       registerFallbackValue(Uri.parse('http://testing'));
       registerFallbackValue(http.Request('GET', Uri.parse('http://testing')));
     });
+
+    void testHandlerMain() async {
+      Event.registerEvent<ApiGatewayEvent>(ApiGatewayEvent.fromJson);
+      TestRegistry().runtime
+        ..registerHandler<ApiGatewayEvent>("bootstrap", (context, event) async {
+          final errorMessage = event.getHeader('X-Error');
+          try {
+            if (errorMessage?.isEmpty ?? true) {
+              return AwsApiGatewayResponse.fromJson(event.toJson());
+            }
+            throw AppError(errorMessage!);
+          } on AppError catch (e) {
+            return e.toResponse().asGatewayResponse();
+          }
+        })
+        ..invoke();
+    }
 
     test('Verifies serveSpaFrom Throws When Missing Key', () async {
       late final TestHandler handler;
@@ -179,6 +198,51 @@ void main() {
         () => handler.serveSpaFrom(event: event),
         throwsStateError,
       );
+    });
+
+    test('Handles Lambda Request Errors As Expected', () async {
+      final resp = MockRuntime().queue(
+          getFakeContext(useIacFile: false),
+          makeEventData(
+            headers: <String, dynamic>{
+              'X-Error': 'Some undesirable thing happened.'
+            },
+          ));
+
+      // Invoke the whole lambda
+      expect(testHandlerMain, returnsNormally);
+
+      // Wait until we get the response
+      final response = await resp;
+      expect(response, isNotNull);
+      expect(response, isA<AwsApiGatewayResponse>());
+      expect(response.statusCode, equals(500));
+      expect(response.body, isNotNull);
+      expect(response.body, isA<String>());
+
+      final error = ErrorResponse.fromJson(
+        jsonDecode(response.body!) as Map<String, dynamic>,
+      );
+      expect(error, isNotNull);
+      expect(error, isA<ErrorResponse>());
+    });
+
+    test('Handles Lambda Requests As Expected', () async {
+      final resp = MockRuntime().queue(getFakeContext(), makeEventData());
+
+      // Invoke the whole lambda
+      expect(testHandlerMain, returnsNormally);
+
+      // Wait until we get the response
+      final response = await resp;
+      expect(response, isNotNull);
+      expect(response, isA<AwsApiGatewayResponse>());
+      expect(response.statusCode, equals(200));
+    });
+
+    test('Handles Empty Mock Queue As Expected', () async {
+      // Invoke the whole lambda
+      expect(testHandlerMain, throwsStateError);
     });
   });
 }

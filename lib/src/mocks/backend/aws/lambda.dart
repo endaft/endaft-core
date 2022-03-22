@@ -55,10 +55,6 @@ class MockRuntime extends Mock implements Runtime {
   }
 
   @override
-  Handler? deregisterHandler(String name) =>
-      _handlers.remove(name)?.handler as Handler?;
-
-  @override
   void invoke() async {
     if (_invocations.isEmpty) {
       throw StateError('There are no queued invocations.'

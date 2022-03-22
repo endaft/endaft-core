@@ -20,7 +20,7 @@ void main() {
       registerFallbackValue(Uri.parse('http://testing'));
     });
 
-    test('Verifies makeRequest Works As Expected', () {
+    test('Verifies makeRequest Works As Expected', () async {
       final api = TestRegistry().appApi;
       final client = TestRegistry().httpClient as MockHttpClient;
 
@@ -32,10 +32,10 @@ void main() {
             200,
           ));
 
-      expect(() => api.getFake(), returnsNormally);
+      await expectLater(api.getFake(), completes);
     });
 
-    test('Login Works As Expected', () {
+    test('Login Works As Expected', () async {
       final api = TestRegistry().appApi;
       final client = TestRegistry().httpClient as MockHttpClient;
 
@@ -84,14 +84,15 @@ void main() {
             200,
           ));
 
-      expect(
-          () => api.login('tester@testing.test', '1234567890TESTING0987654321'),
-          returnsNormally);
+      await expectLater(
+        api.login('tester@testing.test', '1234567890TESTING0987654321'),
+        completes,
+      );
     });
 
-    test('Logout Works As Expected', () {
+    test('Logout Works As Expected', () async {
       final api = TestRegistry().appApi;
-      expect(api.logout(), completes);
+      await expectLater(api.logout(), completes);
     });
 
     test('Gets Hosted Login URL As Expected', () {
@@ -195,7 +196,7 @@ void main() {
       );
     });
 
-    test('API Throws With Cognito Disabled', () {
+    test('API Throws With Cognito Disabled', () async {
       TestRegistry().useConfig(getTestConfig({
         'AWS_COGNITO_ENABLED': 'false',
         'AWS_COGNITO_CLIENT_ID': '1234567890FAKECLIENTID0987654321',
@@ -213,15 +214,15 @@ void main() {
         () => api.hostedCodeCapture(''),
         throwsA(isA<StateError>()),
       );
-      expect(
+      await expectLater(
         api.hostedCodeLogin('1234567890FAKEAUTHCODE0987654321'),
         throwsA(isA<StateError>()),
       );
-      expect(
+      await expectLater(
         api.login('', ''),
         throwsA(isA<StateError>()),
       );
-      expect(
+      await expectLater(
         api.logout(),
         throwsA(isA<StateError>()),
       );

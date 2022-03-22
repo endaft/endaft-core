@@ -44,12 +44,14 @@ Package not compatible with platform Web
 </summary>
 
 Because:
-* `package:endaft_core/server.dart` that imports:
-* `package:endaft_core/src/backend/all.dart` that imports:
-* `package:endaft_core/src/backend/extensions.dart` that imports:
-* `package:aws_lambda_dart_runtime/events/apigateway_event.dart` that imports:
-* `package:aws_lambda_dart_runtime/runtime/event.dart` that imports:
-* `package:aws_lambda_dart_runtime/events/alb_event.dart` that imports:
+* `package:endaft_core/client.dart` that imports:
+* `package:endaft_core/src/frontend/all.dart` that imports:
+* `package:endaft_core/src/frontend/registry.dart` that imports:
+* `package:endaft_core/src/frontend/api.dart` that imports:
+* `package:amazon_cognito_identity_dart_2/cognito.dart` that imports:
+* `package:amazon_cognito_identity_dart_2/src/cognito_user.dart` that imports:
+* `package:amazon_cognito_identity_dart_2/src/cognito_user_pool.dart` that imports:
+* `package:amazon_cognito_identity_dart_2/src/client.dart` that imports:
 * `dart:io`
 </details>
 
@@ -62,7 +64,9 @@ Because:
 
 |Package|Constraint|Compatible|Latest|
 |:-|:-|:-|:-|
+|[`amazon_cognito_identity_dart_2`]|`^1.0.5`|1.0.5|1.0.5|
 |[`aws_lambda_dart_runtime`]|`^1.1.0`|1.1.0|1.1.0|
+|[`aws_s3_api`]|`^1.2.0`|1.2.0|1.2.0|
 |[`collection`]|`^1.15.0`|1.15.0|1.15.0|
 |[`equatable`]|`^2.0.3`|2.0.3|2.0.3|
 |[`http`]|`^0.13.4`|0.13.4|0.13.4|
@@ -70,34 +74,37 @@ Because:
 |[`json_annotation`]|`^4.4.0`|4.4.0|4.4.0|
 |[`matcher`]|`^0.12.11`|0.12.11|0.12.11|
 |[`meta`]|`^1.7.0`|1.7.0|1.7.0|
-|[`mocktail`]|`^0.2.0`|0.2.0|0.2.0|
-|[`path`]|`^1.8.1`|1.8.1|1.8.1|
+|[`mocktail`]|`^0.3.0`|0.3.0|0.3.0|
+|[`path`]|`^1.8.0`|1.8.1|1.8.1|
 
 <details><summary>Transitive dependencies</summary>
 
 |Package|Constraint|Compatible|Latest|
 |:-|:-|:-|:-|
-|[`_fe_analyzer_shared`]|-|34.0.0|34.0.0|
+|[`_fe_analyzer_shared`]|-|36.0.0|36.0.0|
 |[`args`]|-|2.3.0|2.3.0|
 |[`async`]|-|2.8.2|2.8.2|
 |[`boolean_selector`]|-|2.1.0|2.1.0|
 |[`charcode`]|-|1.3.1|1.3.1|
-|[`cli_util`]|-|0.3.5|0.3.5|
+|[`clock`]|-|1.1.0|1.1.0|
 |[`convert`]|-|3.0.1|3.0.1|
 |[`crypto`]|-|3.0.1|3.0.1|
 |[`file`]|-|6.1.2|6.1.2|
 |[`frontend_server_client`]|-|2.1.2|2.1.2|
 |[`glob`]|-|2.0.2|2.0.2|
-|[`http_multi_server`]|-|3.0.1|3.0.1|
+|[`http_multi_server`]|-|3.2.0|3.2.0|
 |[`http_parser`]|-|4.0.0|4.0.0|
+|[`intl`]|-|0.17.0|0.17.0|
 |[`io`]|-|1.0.3|1.0.3|
-|[`js`]|-|0.6.3|0.6.4|
+|[`js`]|-|0.6.4|0.6.4|
 |[`logging`]|-|1.0.2|1.0.2|
 |[`mime`]|-|1.0.1|1.0.1|
 |[`node_preamble`]|-|2.0.1|2.0.1|
 |[`package_config`]|-|2.0.2|2.0.2|
+|[`petitparser`]|-|4.4.0|4.4.0|
 |[`pool`]|-|1.5.0|1.5.0|
 |[`pub_semver`]|-|2.1.0|2.1.0|
+|[`shared_aws_api`]|-|1.2.0|1.2.0|
 |[`shelf`]|-|1.2.0|1.2.0|
 |[`shelf_packages_handler`]|-|3.0.0|3.0.0|
 |[`shelf_static`]|-|1.1.0|1.1.0|
@@ -112,16 +119,20 @@ Because:
 |[`test_api`]|-|0.4.9|0.4.9|
 |[`test_core`]|-|0.4.11|0.4.11|
 |[`typed_data`]|-|1.3.0|1.3.0|
-|[`vm_service`]|-|8.1.0|8.1.0|
+|[`uuid`]|-|3.0.6|3.0.6|
+|[`vm_service`]|-|8.2.0|8.2.0|
 |[`watcher`]|-|1.0.1|1.0.1|
 |[`web_socket_channel`]|-|2.1.0|2.1.0|
 |[`webkit_inspection_protocol`]|-|1.0.0|1.0.0|
+|[`xml`]|-|5.3.1|5.3.1|
 |[`yaml`]|-|3.1.0|3.1.0|
 </details>
 
 To reproduce run `dart pub outdated --no-dev-dependencies --up-to-date --no-dependency-overrides`.
 
+[`amazon_cognito_identity_dart_2`]: https://pub.dev/packages/amazon_cognito_identity_dart_2
 [`aws_lambda_dart_runtime`]: https://pub.dev/packages/aws_lambda_dart_runtime
+[`aws_s3_api`]: https://pub.dev/packages/aws_s3_api
 [`collection`]: https://pub.dev/packages/collection
 [`equatable`]: https://pub.dev/packages/equatable
 [`http`]: https://pub.dev/packages/http
@@ -136,7 +147,7 @@ To reproduce run `dart pub outdated --no-dev-dependencies --up-to-date --no-depe
 [`async`]: https://pub.dev/packages/async
 [`boolean_selector`]: https://pub.dev/packages/boolean_selector
 [`charcode`]: https://pub.dev/packages/charcode
-[`cli_util`]: https://pub.dev/packages/cli_util
+[`clock`]: https://pub.dev/packages/clock
 [`convert`]: https://pub.dev/packages/convert
 [`crypto`]: https://pub.dev/packages/crypto
 [`file`]: https://pub.dev/packages/file
@@ -144,14 +155,17 @@ To reproduce run `dart pub outdated --no-dev-dependencies --up-to-date --no-depe
 [`glob`]: https://pub.dev/packages/glob
 [`http_multi_server`]: https://pub.dev/packages/http_multi_server
 [`http_parser`]: https://pub.dev/packages/http_parser
+[`intl`]: https://pub.dev/packages/intl
 [`io`]: https://pub.dev/packages/io
 [`js`]: https://pub.dev/packages/js
 [`logging`]: https://pub.dev/packages/logging
 [`mime`]: https://pub.dev/packages/mime
 [`node_preamble`]: https://pub.dev/packages/node_preamble
 [`package_config`]: https://pub.dev/packages/package_config
+[`petitparser`]: https://pub.dev/packages/petitparser
 [`pool`]: https://pub.dev/packages/pool
 [`pub_semver`]: https://pub.dev/packages/pub_semver
+[`shared_aws_api`]: https://pub.dev/packages/shared_aws_api
 [`shelf`]: https://pub.dev/packages/shelf
 [`shelf_packages_handler`]: https://pub.dev/packages/shelf_packages_handler
 [`shelf_static`]: https://pub.dev/packages/shelf_static
@@ -166,10 +180,12 @@ To reproduce run `dart pub outdated --no-dev-dependencies --up-to-date --no-depe
 [`test_api`]: https://pub.dev/packages/test_api
 [`test_core`]: https://pub.dev/packages/test_core
 [`typed_data`]: https://pub.dev/packages/typed_data
+[`uuid`]: https://pub.dev/packages/uuid
 [`vm_service`]: https://pub.dev/packages/vm_service
 [`watcher`]: https://pub.dev/packages/watcher
 [`web_socket_channel`]: https://pub.dev/packages/web_socket_channel
 [`webkit_inspection_protocol`]: https://pub.dev/packages/webkit_inspection_protocol
+[`xml`]: https://pub.dev/packages/xml
 [`yaml`]: https://pub.dev/packages/yaml
 
 

@@ -5,6 +5,7 @@ import 'dart:math';
 import 'dart:convert';
 import 'dart:collection';
 
+import 'package:matcher/matcher.dart';
 import 'package:path/path.dart' as path;
 import 'package:aws_lambda_dart_runtime/runtime/context.dart';
 
@@ -19,10 +20,17 @@ int _rndN(int min, int max) => (_rnd.nextInt(max - min) + min).floor();
 String _rndA() => String.fromCharCode(_rndN(65, 90));
 String _getRandomId([int size = 32]) =>
     List.generate(size, (index) => _rndA()).join();
-dynamic _getIacData() => jsonDecode(File('iac.json').readAsStringSync());
+dynamic _getIacData() => File('iac.json').existsSync()
+    ? jsonDecode(File('iac.json').readAsStringSync())
+    : null;
 
-Context getFakeContext() {
-  final dynamic iac = _getIacData();
+Context getFakeContext({bool useIacFile = true}) {
+  final dynamic iac = useIacFile
+      ? _getIacData()
+      : <String, dynamic>{
+          'handler': 'bootstrap',
+          'memory': 128,
+        };
   final funcName = path.basename(Directory.current.path);
   return Context(
     requestId: _getRandomId(18),
@@ -56,13 +64,32 @@ Map<String, dynamic> makeEventData({
     ...(fakeAuth ? getFakeAuthHeaders() : <String, dynamic>{})
   };
   var result = <String, dynamic>{
+    'version': '2',
+    'routeKey': 'default',
+    'rawPath': requestPath,
+    'rawQueryString': '',
+    'cookies': <dynamic>[],
     'resource': resourcePath,
+    'requestContext': ApiGatewayRequestContext(
+      accountId: randomId(),
+      apiId: randomId(),
+      authorizer: <String, ApiGatewayAuthorizer>{},
+      domainName: 'testing.tld',
+      domainPrefix: '',
+      http: <String, String>{},
+      requestId: randomId(),
+      routeKey: 'default',
+      stage: 'test',
+      time: DateTime.now(),
+      timeEpoch: (DateTime.now().millisecondsSinceEpoch / 1000).floor(),
+    ).toJson(),
     'path': requestPath,
     'httpMethod': httpMethod.name.toUpperCase(),
     'queryStringParameters': queryString,
     'stageVariables': stageVars,
     'pathParameters': pathParams,
     'body': jsonEncode(body),
+    'isBase64Encoded': false,
     'headers': fullHeaders,
   };
   return result;

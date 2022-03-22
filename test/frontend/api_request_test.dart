@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:endaft_core/src/mocks/frontend/message.dart';
 import 'package:test/test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:http/http.dart' as http;
@@ -55,7 +54,7 @@ void main() {
         ),
       );
 
-      expect(request.getResponse(), throwsA(isA<HttpError>()));
+      await expectLater(request.getResponse(), throwsA(isA<HttpError>()));
     });
 
     test('HTTP Redirects Are Followed As Expected', () async {
@@ -94,7 +93,7 @@ void main() {
         ),
       );
 
-      expect(request.getResponse(), throwsA(isA<HttpError>()));
+      await expectLater(request.getResponse(), throwsA(isA<HttpError>()));
     });
 
     final basicMethods = [HttpMethod.get, HttpMethod.head];

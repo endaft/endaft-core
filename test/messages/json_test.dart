@@ -6,18 +6,21 @@ import '../utils.dart';
 void main() {
   group('Messages JSON Tests', () {
     test('(De)Serializes JSON As Expected', () {
-      testJson(
+      testJson<RequestBase>(
         ctor: () => RequestBase(),
+        toJson: (model) => model.toJson(),
         fromJson: RequestBase.fromJson,
       );
 
-      testJson(
+      testJson<ResponseBase>(
         ctor: () => ResponseBase(),
+        toJson: (model) => model.toJson(),
         fromJson: ResponseBase.fromJson,
       );
 
-      testJson(
+      testJson<ErrorResponse>(
         ctor: () => ErrorResponse(type: 'test', messages: ['testing']),
+        toJson: (model) => model.toJson(),
         fromJson: ErrorResponse.fromJson,
       );
     });

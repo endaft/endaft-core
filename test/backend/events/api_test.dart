@@ -93,12 +93,13 @@ void main() {
       final domainPrefix = 'test';
       final domainName = 'test.my-great.app';
 
-      testJson(
+      testJson<ApiGatewayAuthorizer>(
         ctor: () => ApiGatewayAuthorizer(claims: {}, scopes: []),
+        toJson: (model) => model.toJson(),
         fromJson: ApiGatewayAuthorizer.fromJson,
       );
 
-      testJson(
+      testJson<ApiGatewayRequestContext>(
         ctor: () => ApiGatewayRequestContext(
           accountId: randomId(),
           apiId: randomId(6),
@@ -120,10 +121,11 @@ void main() {
           time: now,
           timeEpoch: (now.millisecondsSinceEpoch / 1000).floor(),
         ),
+        toJson: (model) => model.toJson(),
         fromJson: ApiGatewayRequestContext.fromJson,
       );
 
-      testJson(
+      testJson<ApiGatewayEvent>(
         ctor: () => ApiGatewayEvent(
           version: '2.0',
           routeKey: r'$default',
@@ -164,6 +166,7 @@ void main() {
             "stageVariable2": "value2"
           },
         ),
+        toJson: (model) => model.toJson(),
         fromJson: ApiGatewayEvent.fromJson,
       );
     });

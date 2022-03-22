@@ -1,0 +1,13 @@
+{
+  "$schema": "../../.endaft/schemas/iac.lambda.schema.json",
+  "description": "The API handler for web app gateway requests to CloudFront.",
+  "anonymous": true,
+  "handler": "bootstrap",
+  "runtime": "provided.al2",
+  "architecture": "x86_64",
+  "file": "../.dist/lambda_gateway.zip",
+  "memory": 128,
+  "timeout": 30,
+  "environment": {},
+  "cloudfront_event": "origin-request"
+}

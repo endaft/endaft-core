@@ -97,7 +97,7 @@ void main() {
     });
 
     test('CloudFront Objects (De)Serializes JSON As Expected', () {
-      testJson(
+      testJson<CloudFrontHeaders>(
         ctor: () => CloudFrontHeaders(
           headers: <String, List<Map<String, String>>>{
             'Host': <Map<String, String>>[
@@ -105,20 +105,22 @@ void main() {
             ],
           },
         ),
+        toJson: (model) => model.toJson(),
         fromJson: CloudFrontHeaders.fromJson,
       );
 
-      testJson(
+      testJson<CloudFrontRequestBody>(
         ctor: () => CloudFrontRequestBody(
           data: '',
           inputTruncated: false,
           action: CloudFrontBodyAction.readOnly,
           encoding: CloudFrontBodyEncoding.text,
         ),
+        toJson: (model) => model.toJson(),
         fromJson: CloudFrontRequestBody.fromJson,
       );
 
-      testJson(
+      testJson<CloudFrontRequest>(
         ctor: () => CloudFrontRequest(
           uri: '/',
           method: 'GET',
@@ -152,20 +154,22 @@ void main() {
             },
           ),
         ),
+        toJson: (model) => model.toJson(),
         fromJson: CloudFrontRequest.fromJson,
       );
 
-      testJson(
+      testJson<CloudFrontConfig>(
         ctor: () => CloudFrontConfig(
           distributionDomainName: 'test.my-great.app',
           distributionId: randomId(),
           eventType: 'origin-request',
           requestId: randomId(32),
         ),
+        toJson: (model) => model.toJson(),
         fromJson: CloudFrontConfig.fromJson,
       );
 
-      testJson(
+      testJson<CloudFront>(
         ctor: () => CloudFront(
           config: CloudFrontConfig(
             distributionDomainName: 'test.my-great.app',
@@ -207,10 +211,11 @@ void main() {
             ),
           ),
         ),
+        toJson: (model) => model.toJson(),
         fromJson: CloudFront.fromJson,
       );
 
-      testJson(
+      testJson<CloudFrontRecords>(
         ctor: () => CloudFrontRecords(
           cf: CloudFront(
             config: CloudFrontConfig(
@@ -254,10 +259,11 @@ void main() {
             ),
           ),
         ),
+        toJson: (model) => model.toJson(),
         fromJson: CloudFrontRecords.fromJson,
       );
 
-      testJson(
+      testJson<CloudFrontOriginRequestEvent>(
         ctor: () => CloudFrontOriginRequestEvent(
           records: <CloudFrontRecords>[
             CloudFrontRecords(
@@ -305,10 +311,11 @@ void main() {
             )
           ],
         ),
+        toJson: (model) => model.toJson(),
         fromJson: CloudFrontOriginRequestEvent.fromJson,
       );
 
-      testJson(
+      testJson<CloudFrontOriginResponse>(
         ctor: () => CloudFrontOriginResponse(
           body: 'foo',
           bodyEncoding: CloudFrontBodyEncoding.text,
@@ -322,11 +329,13 @@ void main() {
           status: 200,
           statusDescription: 'This is the droid you are looking for.',
         ),
+        toJson: (model) => model.toJson(),
         fromJson: CloudFrontOriginResponse.fromJson,
       );
 
-      testJson(
+      testJson<CloudFrontOriginResponse>(
         ctor: () => CloudFrontOriginResponse(),
+        toJson: (model) => model.toJson(),
         fromJson: CloudFrontOriginResponse.fromJson,
       );
     });
