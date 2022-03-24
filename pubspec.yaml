@@ -15,15 +15,15 @@ dependencies:
   mocktail: ^0.3.0
   injector: ^2.0.0
   equatable: ^2.0.3
-  collection: ^1.15.0
+  collection: ^1.16.0
   aws_s3_api: ^1.2.0
   json_annotation: ^4.4.0
   aws_lambda_dart_runtime: ^1.1.0
   amazon_cognito_identity_dart_2: ^1.0.5
 dev_dependencies:
-  test: ^1.20.1
+  test: ^1.20.2
   lints: ^1.0.1
-  analyzer: ^3.3.1
+  analyzer: ^3.4.0
   coverage: ^1.1.0
-  build_runner: ^2.1.7
-  json_serializable: ^6.1.4
+  build_runner: ^2.1.8
+  json_serializable: ^6.1.5
