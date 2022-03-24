@@ -18,7 +18,7 @@ void main() {
     void testHandlerMain() async {
       Event.registerEvent<ApiGatewayEvent>(ApiGatewayEvent.fromJson);
       TestRegistry().runtime
-        ..registerHandler<ApiGatewayEvent>("bootstrap", (context, event) async {
+        ..registerHandler<ApiGatewayEvent>('bootstrap', (context, event) async {
           final errorMessage = event.getHeader('X-Error');
           try {
             if (errorMessage?.isEmpty ?? true) {
@@ -242,7 +242,19 @@ void main() {
 
     test('Handles Empty Mock Queue As Expected', () async {
       // Invoke the whole lambda
-      expect(testHandlerMain, throwsStateError);
+      expect(testHandlerMain, returnsNormally);
+    });
+
+    test('Handles Lack Of Handler As Expected', () async {
+      final resp = MockRuntime().queue(
+        getFakeContext(useIacFile: false, handler: 'foobar'),
+        makeEventData(),
+      );
+
+      // Invoke the whole lambda
+      expect(testHandlerMain, returnsNormally);
+
+      await expectLater(resp, throwsA(isA<RuntimeException>()));
     });
   });
 }

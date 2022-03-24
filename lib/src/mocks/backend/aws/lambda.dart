@@ -56,22 +56,21 @@ class MockRuntime extends Mock implements Runtime {
 
   @override
   void invoke() async {
-    if (_invocations.isEmpty) {
-      throw StateError('There are no queued invocations.'
-          'Did you forget to call queueInvocation?');
-    }
+    if (_invocations.isEmpty) return;
 
     final invocation = _invocations.removeFirst();
     final context = invocation.context;
+    final callback = invocation.callback;
     final func = _handlers[context.handler];
     if (func == null) {
-      throw RuntimeException(
-          'No handler with name "${context.handler}" registered in runtime!');
+      return callback.completeError(
+        RuntimeException(
+          'No handler with name "${context.handler}" registered in runtime!',
+        ),
+      );
     }
     final json = invocation.eventJson;
-    final callback = invocation.callback;
-    final dynamic event =
-        Event.fromHandler<AwsApiGatewayEvent>(func.type, json);
+    final dynamic event = Event.fromHandler<dynamic>(func.type, json);
     final result = await func.handler(context, event) as AwsApiGatewayResponse;
     callback.complete(result);
   }

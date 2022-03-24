@@ -117,8 +117,8 @@ void main() {
 
     test('Verifies randomInt Throws When min > max', () {
       expect(() => randomInt(1, 2), returnsNormally);
-      expect(() => randomInt(2, 2), throwsArgumentError);
-      expect(() => randomInt(3, 2), throwsArgumentError);
+      expect(() => randomInt(2, 2), throwsA(isA<AssertionError>()));
+      expect(() => randomInt(3, 2), throwsA(isA<AssertionError>()));
     });
 
     test('Verifies makeFakes Works As Expected', () {

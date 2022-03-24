@@ -24,11 +24,11 @@ dynamic _getIacData() => File('iac.json').existsSync()
     ? jsonDecode(File('iac.json').readAsStringSync())
     : null;
 
-Context getFakeContext({bool useIacFile = true}) {
+Context getFakeContext({bool useIacFile = true, String handler = 'bootstrap'}) {
   final dynamic iac = useIacFile
       ? _getIacData()
       : <String, dynamic>{
-          'handler': 'bootstrap',
+          'handler': handler,
           'memory': 128,
         };
   final funcName = path.basename(Directory.current.path);
