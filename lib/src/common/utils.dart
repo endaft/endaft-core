@@ -83,13 +83,7 @@ const _asciiChars = <int>[
 
 /// Generates a random integer between [min] and [max].
 int randomInt(int min, int max) {
-  if (min >= max) {
-    throw ArgumentError.value(
-      max,
-      'max',
-      'The max value must be great than the min value.',
-    );
-  }
+  assert(min < max, 'The max value must be great than the min value.');
   return (_rnd.nextInt(max - min) + min).floor();
 }
 
