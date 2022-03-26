@@ -67,17 +67,17 @@ void main() {
               {'X-Env-BASE_DOMAIN': 'my-great.app'}
             ],
             'X-Env-BUCKET_NAME': [
-              {'X-Env-BASE_DOMAIN': bucketName}
+              {'X-Env-BUCKET_NAME': bucketName}
             ],
             'X-Env-BUCKET_REGION': [
-              {'X-Env-BASE_DOMAIN': 'us-east-1'}
+              {'X-Env-BUCKET_REGION': 'us-east-1'}
             ],
           },
         ),
       );
 
       await expectLater(
-        handler.serveSpaFrom(event: event),
+        () => handler.serveSpaFrom(event: event),
         throwsStateError,
       );
     });
@@ -116,17 +116,17 @@ void main() {
               {'X-Env-BASE_DOMAIN': 'my-great.app'}
             ],
             'X-Env-BUCKET_NAME': [
-              {'X-Env-BASE_DOMAIN': bucketName}
+              {'X-Env-BUCKET_NAME': bucketName}
             ],
             'X-Env-BUCKET_REGION': [
-              {'X-Env-BASE_DOMAIN': 'us-east-1'}
+              {'X-Env-BUCKET_REGION': 'us-east-1'}
             ],
           },
         ),
       );
 
       await expectLater(
-        handler.serveSpaFrom(event: event),
+        () => handler.serveSpaFrom(event: event),
         throwsStateError,
       );
     });
@@ -176,7 +176,7 @@ void main() {
       );
       late final CloudFrontOriginResponse response;
       await expectLater(
-        handler.serveSpaFrom(event: event).then((value) {
+        () => handler.serveSpaFrom(event: event).then((value) {
           response = value;
         }),
         completes,
