@@ -33,6 +33,22 @@ class BaseAppApiHandler<TConfig extends BaseServerConfig> {
     ]);
   }
 
+  Future<AwsClientCredentials?> _credentialsProvider({
+    http.Client? client,
+  }) async {
+    final accessKey = config.tryGet('AWS_ACCESS_KEY_ID');
+    final secretKey = config.tryGet('AWS_SECRET_ACCESS_KEY');
+    final sessionToken = config.tryGet('AWS_SESSION_TOKEN');
+    if (accessKey != null && secretKey != null) {
+      return AwsClientCredentials(
+        accessKey: accessKey,
+        secretKey: secretKey,
+        sessionToken: sessionToken,
+      );
+    }
+    return null;
+  }
+
   Future<CloudFrontOriginResponse> serveSpaFrom({
     required CloudFrontOriginRequestEvent event,
     String defaultFileName = 'index.html',
@@ -65,7 +81,12 @@ class BaseAppApiHandler<TConfig extends BaseServerConfig> {
     late final int status;
     late final Encoding enc;
     late final GetObjectOutput s3Resp;
-    final S3 s3 = S3(region: bucketRegion, client: httpClient);
+
+    final S3 s3 = S3(
+      region: bucketRegion,
+      client: httpClient,
+      credentialsProvider: _credentialsProvider,
+    );
     try {
       s3Resp = await s3.getObject(
         bucket: bucketName,
