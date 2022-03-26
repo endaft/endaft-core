@@ -22,6 +22,15 @@ abstract class BaseConfig {
     return _env[name]!;
   }
 
+  /// Gets a value by [name] from the underlying config map, or `null`
+  /// if the underlying map does not contain the [name].
+  String? tryGet(String name) {
+    if (!_env.containsKey(name)) {
+      return null;
+    }
+    return _env[name]!;
+  }
+
   /// Gets a value by [name] from the underlying config map, or throws a
   /// [MissingConfigError] if the underlying map does not contain the [name].
   String getOrThrow(String name) {
