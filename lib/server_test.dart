@@ -127,6 +127,8 @@ Map<String, String> getTestEnv([Map<String, String>? overrides]) {
   return UnmodifiableMapView(Map<String, String>.from(Platform.environment)
     ..addAll({
       'AWS_REGION': 'us-east-1',
+      'AWS_ACCESS_KEY_ID': _getRandomId(),
+      'AWS_SECRET_ACCESS_KEY': _getRandomId(),
       'DATA_TABLE_NAME': 'my-great-app-test-data'
     })
     ..addAll(overrides ?? {}));

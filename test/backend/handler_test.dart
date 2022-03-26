@@ -176,7 +176,7 @@ void main() {
       );
       late final CloudFrontOriginResponse response;
       await expectLater(
-        () => handler.serveSpaFrom(event: event).then((value) {
+        handler.serveSpaFrom(event: event).then((value) {
           response = value;
         }),
         completes,
