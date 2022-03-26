@@ -5,7 +5,6 @@ import 'dart:math';
 import 'dart:convert';
 import 'dart:collection';
 
-import 'package:matcher/matcher.dart';
 import 'package:path/path.dart' as path;
 import 'package:aws_lambda_dart_runtime/runtime/context.dart';
 

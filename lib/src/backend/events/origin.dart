@@ -216,9 +216,19 @@ class CloudFrontRequest extends AppContract {
   Map<String, dynamic> toJson() => _$CloudFrontRequestToJson(this);
 }
 
-enum CloudFrontBodyAction { readOnly, replace }
+enum CloudFrontBodyAction {
+  @JsonValue('readOnly')
+  readOnly,
+  @JsonValue('replace')
+  replace,
+}
 
-enum CloudFrontBodyEncoding { base64, text }
+enum CloudFrontBodyEncoding {
+  @JsonValue('base64')
+  base64,
+  @JsonValue('text')
+  text,
+}
 
 @JsonSerializable()
 class CloudFrontRequestBody extends AppContract {

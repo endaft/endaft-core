@@ -2,7 +2,11 @@ library endaft.core;
 
 import 'package:matcher/matcher.dart';
 
-enum MatchMode { startsWith, endsWith, contains }
+enum MatchMode {
+  startsWith,
+  endsWith,
+  contains,
+}
 
 Matcher uriContains(String part) => _UriMatcher(MatchMode.contains, part);
 Matcher uriEndsWith(String suffix) => _UriMatcher(MatchMode.endsWith, suffix);
