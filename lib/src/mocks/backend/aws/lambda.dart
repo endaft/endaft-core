@@ -23,12 +23,12 @@ class _MockRuntimeHandler {
   const _MockRuntimeHandler(this.type, this.handler) : assert(handler != null);
 }
 
-class _MockInvocation {
+class _MockInvocation<T> {
   _MockInvocation(this.context, this.eventJson, this.callback);
 
   final Context context;
   final Map<String, dynamic> eventJson;
-  final Completer<dynamic> callback;
+  final Completer<T> callback;
 }
 
 class MockRuntime extends Mock implements Runtime {
@@ -38,12 +38,12 @@ class MockRuntime extends Mock implements Runtime {
   final Map<String, _MockRuntimeHandler> _handlers = {};
   final Queue<_MockInvocation> _invocations = Queue<_MockInvocation>();
 
-  Future<AwsApiGatewayResponse> queue(
+  Future<T> queue<T>(
     Context context,
     Map<String, dynamic> event,
   ) {
-    final callback = Completer<AwsApiGatewayResponse>();
-    _invocations.add(_MockInvocation(context, event, callback));
+    final callback = Completer<T>();
+    _invocations.add(_MockInvocation<T>(context, event, callback));
 
     return callback.future;
   }
