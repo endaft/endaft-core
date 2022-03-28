@@ -19,7 +19,7 @@ void main() {
 
     test('Verifies BaseResponseFactories Works As Expected', () {
       final appResp = ResponseBase();
-      final apiResp = appResp.asGatewayResponse();
+      final apiResp = appResp.asApiResponse();
       expect(apiResp, isNotNull);
       expect(apiResp.statusCode, equals(appResp.statusCode));
     });

@@ -7,7 +7,7 @@ typedef RequestFactory<T extends RequestBase> = T Function(
 );
 
 extension BaseResponseFactories on ResponseBase {
-  AwsApiGatewayResponse asGatewayResponse({
+  AwsApiGatewayResponse asApiResponse({
     bool isBase64Encoded = false,
     Map<String, String>? headers,
     int? statusCode,

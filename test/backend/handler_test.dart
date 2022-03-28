@@ -26,7 +26,7 @@ void main() {
             }
             throw AppError(errorMessage!);
           } on AppError catch (e) {
-            return e.toResponse().asGatewayResponse();
+            return e.toResponse().asApiResponse();
           }
         })
         ..invoke();
@@ -201,7 +201,7 @@ void main() {
     });
 
     test('Handles Lambda Request Errors As Expected', () async {
-      final resp = MockRuntime().queue(
+      final resp = MockRuntime().queue<AwsApiGatewayResponse>(
           getFakeContext(useIacFile: false),
           makeEventData(
             headers: <String, dynamic>{
@@ -228,7 +228,10 @@ void main() {
     });
 
     test('Handles Lambda Requests As Expected', () async {
-      final resp = MockRuntime().queue(getFakeContext(), makeEventData());
+      final resp = MockRuntime().queue<AwsApiGatewayResponse>(
+        getFakeContext(),
+        makeEventData(),
+      );
 
       // Invoke the whole lambda
       expect(testHandlerMain, returnsNormally);
@@ -246,7 +249,7 @@ void main() {
     });
 
     test('Handles Lack Of Handler As Expected', () async {
-      final resp = MockRuntime().queue(
+      final resp = MockRuntime().queue<AwsApiGatewayResponse>(
         getFakeContext(useIacFile: false, handler: 'foobar'),
         makeEventData(),
       );
