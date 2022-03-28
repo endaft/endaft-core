@@ -28,7 +28,7 @@ class _MockInvocation {
 
   final Context context;
   final Map<String, dynamic> eventJson;
-  final Completer<AwsApiGatewayResponse> callback;
+  final Completer<dynamic> callback;
 }
 
 class MockRuntime extends Mock implements Runtime {
@@ -71,7 +71,7 @@ class MockRuntime extends Mock implements Runtime {
     }
     final json = invocation.eventJson;
     final dynamic event = Event.fromHandler<dynamic>(func.type, json);
-    final result = await func.handler(context, event) as AwsApiGatewayResponse;
+    final dynamic result = await func.handler(context, event);
     callback.complete(result);
   }
 }
