@@ -17,11 +17,25 @@ void main() {
       expect(map.parseIntOr('valid-number'), equals(42));
     });
 
-    test('Verifies BaseResponseFactories Works As Expected', () {
+    test('Verifies BaseResponseFactories::asApiResponse Works As Expected', () {
       final appResp = ResponseBase();
       final apiResp = appResp.asApiResponse();
       expect(apiResp, isNotNull);
       expect(apiResp.statusCode, equals(appResp.statusCode));
+    });
+
+    test('Verifies BaseResponseFactories::asOriginResponse Works As Expected',
+        () {
+      final appResp = ResponseBase();
+      final apiResp = appResp.asOriginResponse();
+      expect(apiResp, isNotNull);
+      expect(apiResp.status, equals(appResp.statusCode));
+
+      final headers = <String, String>{'foo': 'bar'};
+      final hdrResp = appResp.asOriginResponse(headers: headers);
+      expect(hdrResp, isNotNull);
+      expect(hdrResp.status, equals(appResp.statusCode));
+      expect(hdrResp.headers.flattened, equals(headers));
     });
   });
 }
