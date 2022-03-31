@@ -17,10 +17,10 @@ dev-gen:
 	dart run build_runner build --delete-conflicting-outputs
 
 all: deps
-	dart fix --apply
-	dart format .
-	# dart analyze --fatal-infos
-	dart run build_runner build --delete-conflicting-outputs
+	dart fix --apply >>/dev/null
+	dart format . >>/dev/null
+	dart analyze --fatal-infos
+	dart run build_runner build --delete-conflicting-outputs >>/dev/null
 
 deps: clean
 	dart pub get >>/dev/null
@@ -38,3 +38,5 @@ analyze:
 
 act-build:
 	act --bind --rm --directory "$(PWD)" --env-file "$(PWD)/.act/.env" --eventpath "$(PWD)/.act/push_main.json" --container-architecture linux/arm64
+
+default: all
