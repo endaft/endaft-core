@@ -10,12 +10,14 @@ void main() {
     final cognitoEndpoint = 'https://id.test.my-great.app/';
 
     setUp(() {
-      TestRegistry().useConfig(getTestConfig({
-        'AWS_COGNITO_ENDPOINT': cognitoEndpoint,
-        'AWS_COGNITO_CLIENT_ID': '1234567890FAKECLIENTID0987654321',
-        'AWS_COGNITO_USER_POOL_ID': '1234567890_FAKEUSERPOOLID_0987654321',
-        'AWS_COGNITO_CLIENT_SECRET': '1234567890FAKECLIENTSECRET0987654321',
-      }));
+      TestRegistry()
+        ..reset()
+        ..useConfig(getTestConfig({
+          'AWS_COGNITO_ENDPOINT': cognitoEndpoint,
+          'AWS_COGNITO_CLIENT_ID': '1234567890FAKECLIENTID0987654321',
+          'AWS_COGNITO_USER_POOL_ID': '1234567890_FAKEUSERPOOLID_0987654321',
+          'AWS_COGNITO_CLIENT_SECRET': '1234567890FAKECLIENTSECRET0987654321',
+        }));
       registerFallbackValue(<String, dynamic>{});
       registerFallbackValue(Uri.parse('http://testing'));
     });
@@ -197,12 +199,14 @@ void main() {
     });
 
     test('API Throws With Cognito Disabled', () async {
-      TestRegistry().useConfig(getTestConfig({
-        'AWS_COGNITO_ENABLED': 'false',
-        'AWS_COGNITO_CLIENT_ID': '1234567890FAKECLIENTID0987654321',
-        'AWS_COGNITO_USER_POOL_ID': '1234567890_FAKEUSERPOOLID_0987654321',
-        'AWS_COGNITO_CLIENT_SECRET': '1234567890FAKECLIENTSECRET0987654321',
-      }));
+      TestRegistry()
+        ..reset()
+        ..useConfig(getTestConfig({
+          'AWS_COGNITO_ENABLED': 'false',
+          'AWS_COGNITO_CLIENT_ID': '1234567890FAKECLIENTID0987654321',
+          'AWS_COGNITO_USER_POOL_ID': '1234567890_FAKEUSERPOOLID_0987654321',
+          'AWS_COGNITO_CLIENT_SECRET': '1234567890FAKECLIENTSECRET0987654321',
+        }));
       final api = TestRegistry().appApi;
 
       expect(api, isNotNull);

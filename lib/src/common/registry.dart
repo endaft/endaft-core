@@ -22,16 +22,28 @@ abstract class Registry<TConfig extends BaseConfig> {
   void setup(TConfig config);
 
   /// Sets the available [config] for factories requiring configuration.
+  @nonVirtual
   void useConfig(TConfig config) {
-    injector.removeByKey<TConfig>();
-    setup(config);
+    if (!_isSetup) {
+      _isSetup = true;
+      injector.removeByKey<TConfig>();
+      setup(config);
+    }
   }
+
+  /// Resets the [Registry] state, allowing it to be reconfigured.
+  @nonVirtual
+  void reset() {
+    _isSetup = false;
+  }
+
+  bool _isSetup = false;
 
   /// Gets the [TConfig] used by the registry and its components.
   TConfig get config => injector.get<TConfig>();
 
-  /// Registers a singleton builder for an object
-  /// that requires configuration values
+  /// Registers a singleton builder for an object that requires configuration values
+  @nonVirtual
   Factory<T> withConfig<T>(
     ConfigBuilder<T, TConfig> builder, {
     bool singleton = true,
