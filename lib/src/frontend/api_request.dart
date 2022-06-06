@@ -21,6 +21,7 @@ class ApiRequestConfig<TResponse extends ResponseBase> {
     required this.fromJson,
     this.body,
     this.encoding,
+    this.authCode,
     this.authToken,
     this.params = const <String, dynamic>{},
     this.headers = const <String, String>{},
@@ -29,12 +30,24 @@ class ApiRequestConfig<TResponse extends ResponseBase> {
 
   final Uri url;
   final Object? body;
+  final String? authCode;
   final String? authToken;
   final HttpMethod method;
   final Encoding? encoding;
   final Map<String, dynamic> params;
   final Map<String, String> headers;
   final JsonDeserializer<TResponse> fromJson;
+
+  Map<String, String> get allHeaders {
+    final authHeaders = <String, String>{};
+    if (authCode != null) {
+      authHeaders['Authorization'] = 'Bearer $authCode';
+    }
+    if (authToken != null) {
+      authHeaders['Cookie'] = 'jwt=$authToken';
+    }
+    return {...headers, ...authHeaders};
+  }
 }
 
 class ApiRequest<TRequest extends RequestBase, TResponse extends ResponseBase> {
@@ -62,27 +75,27 @@ class ApiRequest<TRequest extends RequestBase, TResponse extends ResponseBase> {
 
     switch (finalMethod) {
       case HttpMethod.get:
-        return httpClient.get(finalUrl, headers: requestConfig.headers);
+        return httpClient.get(finalUrl, headers: requestConfig.allHeaders);
       case HttpMethod.head:
-        return httpClient.head(finalUrl, headers: requestConfig.headers);
+        return httpClient.head(finalUrl, headers: requestConfig.allHeaders);
       case HttpMethod.post:
         return httpClient.post(finalUrl,
-            headers: requestConfig.headers,
+            headers: requestConfig.allHeaders,
             body: requestConfig.body,
             encoding: requestConfig.encoding);
       case HttpMethod.put:
         return httpClient.put(finalUrl,
-            headers: requestConfig.headers,
+            headers: requestConfig.allHeaders,
             body: requestConfig.body,
             encoding: requestConfig.encoding);
       case HttpMethod.delete:
         return httpClient.delete(finalUrl,
-            headers: requestConfig.headers,
+            headers: requestConfig.allHeaders,
             body: requestConfig.body,
             encoding: requestConfig.encoding);
       case HttpMethod.patch:
         return httpClient.patch(finalUrl,
-            headers: requestConfig.headers,
+            headers: requestConfig.allHeaders,
             body: requestConfig.body,
             encoding: requestConfig.encoding);
     }

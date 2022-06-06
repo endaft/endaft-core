@@ -33,6 +33,26 @@ void main() {
           .registerSingleton<http.Client>(() => MockHttpClient());
     });
 
+    test('Handles Config Auth Headers As Expected', () async {
+      final configCode = ApiRequestConfig(
+        url: Uri.parse('/mocked'),
+        method: HttpMethod.head,
+        fromJson: MockResponse.fromJson,
+        authCode: randomId(128),
+      );
+      expect(configCode.allHeaders.keys, contains('Authorization'));
+
+      final jwt = jsonEncode({'code': randomId(128)});
+      final configToken = ApiRequestConfig(
+        url: Uri.parse('/mocked'),
+        method: HttpMethod.head,
+        fromJson: MockResponse.fromJson,
+        authToken: jwt,
+      );
+      expect(configToken.allHeaders.keys, contains('Cookie'));
+      expect(configToken.allHeaders['Cookie'], contains('jwt=$jwt'));
+    });
+
     test('HTTP Errors Are Reported As Expected', () async {
       final client = TestRegistry().httpClient as MockHttpClient;
 

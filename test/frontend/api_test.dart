@@ -126,6 +126,10 @@ void main() {
     test('Hosted Code Login Works As Expected', () async {
       final api = TestRegistry().appApi;
       final client = TestRegistry().httpClient as MockHttpClient;
+      final accessToken = '0.${base64Encode(
+        utf8.encode(
+            '{"sub":"1234567890FAKEACCESSTOKEN0987654321","exp":987654321}'),
+      )}';
 
       when(() => client.post(
             any(that: uriStartsWith(cognitoEndpoint)),
@@ -136,10 +140,7 @@ void main() {
                 utf8.encode(
                     '{"sub":"1234567890FAKEIDTOKEN0987654321","exp":987654321}'),
               )}',
-              'access_token': '0.${base64Encode(
-                utf8.encode(
-                    '{"sub":"1234567890FAKEACCESSTOKEN0987654321","exp":987654321}'),
-              )}',
+              'access_token': accessToken,
               'refresh_token': '1234567890FAKEREFRESHTOKEN0987654321',
             }),
             200,
@@ -172,6 +173,7 @@ void main() {
         }),
         completes,
       );
+      expect(api.accessCode, equals(accessToken));
       await expectLater(
         api.logout().then((value) {
           expect(api.user, isNull);

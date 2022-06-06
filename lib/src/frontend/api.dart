@@ -60,8 +60,14 @@ class BaseAppApi<TConfig extends BaseClientConfig> {
   /// Accesses the actively authenticated [cognito.CognitoUser], if any.
   cognito.CognitoUser? get user => _user;
 
+  /// Stores the active access code for an authenticated user, if any.
+  String? _authCode;
+
   /// Stores the active authentication JWT for an authenticated user, if any.
   String? _authToken;
+
+  /// Stores the active access code for an authenticated user, if any.
+  String? get accessCode => _authCode;
 
   /// The underlying concrete implementation for making requests.
   ///
@@ -84,6 +90,7 @@ class BaseAppApi<TConfig extends BaseClientConfig> {
         resolveUrl: config.resolveUrl,
         requestConfig: ApiRequestConfig(
           url: config.resolveUrl(url),
+          authCode: _authCode,
           authToken: _authToken,
           fromJson: fromJson,
         )).getResponse().timeout(timeout, onTimeout: onTimeout);
@@ -166,6 +173,7 @@ class BaseAppApi<TConfig extends BaseClientConfig> {
 
     final jwt = session.getAccessToken().getJwtToken();
     if (jwt != null) {
+      _authCode = tokenData['access_token'] as String?;
       _authToken = jwt;
     }
 
@@ -190,6 +198,7 @@ class BaseAppApi<TConfig extends BaseClientConfig> {
 
     if (jwt != null) {
       _authToken = jwt;
+      _authCode = session?.accessToken.jwtToken;
       return true;
     }
 
@@ -206,8 +215,7 @@ class BaseAppApi<TConfig extends BaseClientConfig> {
       await _user!.signOut();
       _user = null;
     }
-    if (_authToken != null) {
-      _authToken = null;
-    }
+    _authCode = null;
+    _authToken = null;
   }
 }
