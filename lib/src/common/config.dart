@@ -1,16 +1,31 @@
 /// The extensible configuration library
 library common.config;
 
-import 'dart:collection';
+import 'package:uuid/uuid.dart';
 
 import '../messages/all.dart';
 
 /// The base configuration model
 abstract class BaseConfig {
-  late final UnmodifiableMapView<String, String> _env;
+  late final Map<String, String> _env;
+  final Map<String, Map<String, String>> _augments = {};
 
   BaseConfig([Map<String, String>? env]) {
-    _env = UnmodifiableMapView<String, String>(env ?? {});
+    _env = Map<String, String>.from(env ?? <String, String>{});
+  }
+
+  /// Adds a set of values to the environment and returns the token for
+  /// removing the augments. Augments can be removed calling [removeAugment]
+  /// with the returned token.
+  String augmentWith(Map<String, String> env) {
+    final uuid = Uuid().v4();
+    _augments[uuid] = env;
+    return uuid;
+  }
+
+  /// Returns the removed environment variable set associated to the [token].
+  Map<String, String>? removeAugment(String token) {
+    return _augments.remove(token);
   }
 
   /// Gets a value by [name] from the underlying config map, or the [fallback]

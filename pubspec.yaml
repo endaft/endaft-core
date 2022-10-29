@@ -1,30 +1,34 @@
 name: endaft_core
 description: The core library behind the EnDaft 'shared' library. Chock full of
   goodness within.
-version: 0.0.2
+version: 0.0.3
 homepage: https://endaft.dev
 repository: https://github.com/endaft/endaft-core
 issue_tracker: https://github.com/endaft/endaft-core/issues
+
 environment:
   sdk: ">=2.18.0 <3.0.0"
+
 dependencies:
-  http: ^0.13.5
-  path: ^1.8.2
-  meta: ^1.8.0
-  matcher: ^0.12.12
-  mocktail: ^0.3.0
-  injector: ^2.0.0
-  equatable: ^2.0.5
-  collection: ^1.16.0
-  aws_s3_api: ^1.2.0
-  json_annotation: ^4.6.0
-  aws_lambda_dart_runtime: ^1.1.0
   amazon_cognito_identity_dart_2: ^3.0.0
+  aws_lambda_dart_runtime: ^1.1.0
+  aws_s3_api: ^1.2.0
+  collection: ^1.16.0
+  equatable: ^2.0.5
+  http: ^0.13.5
+  injector: ^2.0.0
+  json_annotation: ^4.6.0
+  matcher: ^0.12.12
+  meta: ^1.8.0
+  mocktail: ^0.3.0
+  path: ^1.8.2
+  uuid: ^3.0.6
+
 dev_dependencies:
-  test: ^1.21.5
-  lints: ^2.0.0
   analyzer: ^4.7.0
-  coverage: ^1.5.0
-  build_test: ^2.1.5
   build_runner: ^2.2.0
+  build_test: ^2.1.5
+  coverage: ^1.5.0
   json_serializable: ^6.3.1
+  lints: ^2.0.0
+  test: ^1.21.5
