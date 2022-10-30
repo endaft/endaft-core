@@ -4,6 +4,8 @@ import 'package:injector/injector.dart';
 import '../../server.dart';
 import '../common/registry.dart' as common;
 
+final _xEnv = RegExp(r'X-Env-', caseSensitive: false);
+
 /// The server-side injection registry.
 abstract class BaseServerRegistry<TConfig extends BaseServerConfig>
     extends common.Registry<TConfig> {
@@ -25,7 +27,7 @@ abstract class BaseServerRegistry<TConfig extends BaseServerConfig>
   String addEventEnv(AwsApiGatewayEvent event) {
     final headers = event.headers?.raw ?? <String, dynamic>{};
     return config.augmentWith(Map<String, String>.fromEntries(
-      headers.keys.where((k) => k.startsWith('X-Env-')).map((k) => MapEntry(k,
+      headers.keys.where((k) => k.startsWith(_xEnv)).map((k) => MapEntry(k,
           headers[k] is String ? headers[k] as String : headers[k].toString())),
     ));
   }
