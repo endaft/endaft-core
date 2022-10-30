@@ -24,10 +24,16 @@ abstract class BaseServerRegistry<TConfig extends BaseServerConfig>
 
   /// Augments the current environment with `X-Env` prefixed variables from the
   /// [event] headers, and returns a token that can be used to remove them later.
+  ///
+  /// Adding values from an [event] will transpose all keys to `UPPERCASE`
+  /// because AWS might make them `lowercase` and the lookup is case-sensitive.
+  /// To avoid case-sensitivity issues and use your exact case, augment through
+  /// [BaseConfig.augmentWith] which should be visible through your derivation.
   String addEventEnv(AwsApiGatewayEvent event) {
     final headers = event.headers?.raw ?? <String, dynamic>{};
     return config.augmentWith(Map<String, String>.fromEntries(
-      headers.keys.where((k) => k.startsWith(_xEnv)).map((k) => MapEntry(k,
+      headers.keys.where((k) => k.startsWith(_xEnv)).map((k) => MapEntry(
+          k.replaceFirst(_xEnv, '').toUpperCase(),
           headers[k] is String ? headers[k] as String : headers[k].toString())),
     ));
   }

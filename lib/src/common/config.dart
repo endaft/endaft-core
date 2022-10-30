@@ -31,27 +31,33 @@ abstract class BaseConfig {
   /// Gets a value by [name] from the underlying config map, or the [fallback]
   /// if the underlying map does not contain the [name].
   String getOr(String name, {required String fallback}) {
-    if (!_env.containsKey(name)) {
+    if (!_env.containsKey(name) &&
+        !_augments.values.any((m) => m.containsKey(name))) {
       return fallback;
     }
-    return _env[name]!;
+    return _env[name] ??
+        _augments.values.firstWhere((m) => m.containsKey(name))[name]!;
   }
 
   /// Gets a value by [name] from the underlying config map, or `null`
   /// if the underlying map does not contain the [name].
   String? tryGet(String name) {
-    if (!_env.containsKey(name)) {
+    if (!_env.containsKey(name) &&
+        !_augments.values.any((m) => m.containsKey(name))) {
       return null;
     }
-    return _env[name]!;
+    return _env[name] ??
+        _augments.values.firstWhere((m) => m.containsKey(name))[name];
   }
 
   /// Gets a value by [name] from the underlying config map, or throws a
   /// [MissingConfigError] if the underlying map does not contain the [name].
   String getOrThrow(String name) {
-    if (!_env.containsKey(name)) {
+    if (!_env.containsKey(name) &&
+        !_augments.values.any((m) => m.containsKey(name))) {
       throw MissingConfigError(name);
     }
-    return _env[name]!;
+    return _env[name] ??
+        _augments.values.firstWhere((m) => m.containsKey(name))[name]!;
   }
 }
