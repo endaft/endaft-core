@@ -1,0 +1,46 @@
+name: PR Check
+on: pull_request
+
+permissions:
+  issues: write
+  contents: write
+  pull-requests: write
+  repository-projects: write
+
+jobs:
+  check-pr:
+    name: Check PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 👇 Checkout
+        uses: actions/checkout@v3
+
+      - name: 📦 Setup Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: 📦 Setup LCOV
+        uses: hrishikesh-kadam/setup-lcov@v1
+
+      - name: 🧪 Test
+        run: make test
+
+      - name: 👇 Fetch Metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1.3.5
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: ✍🏼 Enable Auto-Merge
+        if: ${{ contains(fromJson('["version-update:semver-patch", "version-update:semver-minor"]'), steps.metadata.outputs.update-type) }}
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 👍🏼 Approve PR
+        if: ${{ github.actor == 'dependabot[bot]' }}
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
