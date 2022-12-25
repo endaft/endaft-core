@@ -24,7 +24,7 @@ Map<String, dynamic> _$CloudFrontOriginResponseToJson(
         CloudFrontOriginResponse instance) =>
     <String, dynamic>{
       'body': instance.body,
-      'bodyEncoding': _$CloudFrontBodyEncodingEnumMap[instance.bodyEncoding],
+      'bodyEncoding': _$CloudFrontBodyEncodingEnumMap[instance.bodyEncoding]!,
       'headers': instance.headers,
       'status': instance.status,
       'statusDescription': instance.statusDescription,
@@ -111,8 +111,8 @@ Map<String, dynamic> _$CloudFrontRequestBodyToJson(
         CloudFrontRequestBody instance) =>
     <String, dynamic>{
       'inputTruncated': instance.inputTruncated,
-      'action': _$CloudFrontBodyActionEnumMap[instance.action],
-      'encoding': _$CloudFrontBodyEncodingEnumMap[instance.encoding],
+      'action': _$CloudFrontBodyActionEnumMap[instance.action]!,
+      'encoding': _$CloudFrontBodyEncodingEnumMap[instance.encoding]!,
       'data': instance.data,
     };
 

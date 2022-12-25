@@ -7,7 +7,7 @@ import 'utils.dart';
 
 /// Creates [count] number of random words.
 String createWord({int count = 1}) {
-  Random _random;
+  Random random;
 
   if (count > 1) {
     var sentence = createSentence(sentenceLength: count, numSentences: 1);
@@ -15,8 +15,8 @@ String createWord({int count = 1}) {
     return sentence;
   }
 
-  _random = Random();
-  return words[_random.nextInt(words.length)];
+  random = Random();
+  return words[random.nextInt(words.length)];
 }
 
 /// Creates random sentences.
@@ -36,7 +36,7 @@ String createSentence({int sentenceLength = -1, int numSentences = 1}) {
 
   wordIndex = randomInt(0, words.length - sentenceLength - 1);
   sentence = words.getRange(wordIndex, wordIndex + sentenceLength).join(" ");
-  sentence = sentence[0].toUpperCase() + sentence.substring(1) + ".";
+  sentence = "${sentence[0].toUpperCase()}${sentence.substring(1)}.";
 
   return sentence;
 }
