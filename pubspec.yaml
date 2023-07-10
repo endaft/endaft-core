@@ -16,7 +16,7 @@ dependencies:
   collection: ">=1.16.0 <2.0.0"
   equatable: ">=2.0.0 <3.0.0"
   http: ">=0.13.0 <1.0.0"
-  injector: ">=2.0.0 <3.0.0"
+  injector: ">=2.0.0 <4.0.0"
   json_annotation: ">=4.6.0 <5.0.0"
   matcher: ">=0.12.0 <1.0.0"
   meta: ">=1.8.0 <2.0.0"
