@@ -39,7 +39,7 @@ void main() {
 }
 
 class MockConfig extends BaseConfig {
-  MockConfig(Map<String, String>? env) : super(env);
+  MockConfig(super.env);
 }
 
 class MockProvider {

@@ -35,7 +35,7 @@ class ResponseBase extends AppContract {
   final bool error;
   final List<String> messages;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final int statusCode;
 
   @override

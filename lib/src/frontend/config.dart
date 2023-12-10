@@ -3,7 +3,7 @@ import '../common/config.dart';
 /// The configuration for the client API.
 abstract class BaseClientConfig extends BaseConfig implements CognitoConfig {
   /// Creates a new instance of [BaseClientConfig] with the specified [env] map.
-  BaseClientConfig([Map<String, String>? env]) : super(env);
+  BaseClientConfig([super.env]);
 
   /// The base URL for API endpoints.
   String get baseUrl;

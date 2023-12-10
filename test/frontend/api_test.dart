@@ -247,9 +247,9 @@ class TestRequest extends RequestBase {
 
 class TestResponse extends ResponseBase {
   TestResponse({
-    bool error = false,
-    List<String> messages = const [],
-  }) : super(error: error, messages: messages);
+    super.error,
+    super.messages,
+  });
 
   factory TestResponse.fromJson(Map<String, dynamic> json) {
     return TestResponse(
@@ -269,8 +269,7 @@ class TestResponse extends ResponseBase {
 }
 
 class TestApi extends BaseAppApi<TestClientConfig> {
-  TestApi({required TestClientConfig config, required http.Client httpClient})
-      : super(config: config, httpClient: httpClient);
+  TestApi({required super.config, required super.httpClient});
 
   Future<TestResponse?> getFake({
     ApiTimeoutHandler<TestResponse> onTimeout,

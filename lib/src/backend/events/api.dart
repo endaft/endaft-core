@@ -39,7 +39,7 @@ class ApiGatewayEvent extends AppContract {
   final bool isBase64Encoded;
   final Map<String, String> stageVariables;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   late final UnmodifiableMapView<String, String> environment;
 
   bool hasHeader(String key) {

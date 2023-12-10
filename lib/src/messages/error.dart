@@ -13,13 +13,13 @@ part 'error.g.dart';
 @JsonSerializable()
 class ErrorResponse extends ResponseBase {
   ErrorResponse({
-    bool error = true,
-    required List<String> messages,
+    super.error = true,
+    required super.messages,
     required this.type,
-    int statusCode = HttpStatus.internalServerError,
+    super.statusCode = HttpStatus.internalServerError,
     this.context,
     this.stackTrace,
-  }) : super(error: error, messages: messages, statusCode: statusCode);
+  });
 
   @JsonKey(name: "__type")
   final String type;
@@ -70,8 +70,7 @@ class AppError implements Exception {
 }
 
 class SecurityError extends AppError {
-  SecurityError(String message, [StackTrace? stackTrace])
-      : super(message, stackTrace);
+  SecurityError(super.message, [super.stackTrace]);
 
   factory SecurityError.noUser() => SecurityError('Missing user data');
 }

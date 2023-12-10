@@ -264,9 +264,9 @@ void main() {
 
 class TestHandler extends BaseAppApiHandler<TestServerConfig> {
   TestHandler({
-    required TestServerConfig config,
-    required http.Client httpClient,
-  }) : super(config: config, httpClient: httpClient);
+    required super.config,
+    required super.httpClient,
+  });
 }
 
 class TestRegistry extends BaseServerRegistry<TestServerConfig> {

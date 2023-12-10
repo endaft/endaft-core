@@ -25,7 +25,7 @@ void main() {
 }
 
 class MockConfig extends BaseClientConfig {
-  MockConfig(Map<String, String>? env) : super(env);
+  MockConfig(super.env);
 
   @override
   String get baseUrl => 'http://testing';

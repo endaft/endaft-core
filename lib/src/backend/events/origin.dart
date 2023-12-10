@@ -71,7 +71,7 @@ class CloudFrontOriginRequestEvent extends AppContract {
 
   final List<CloudFrontRecords> records;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   late final UnmodifiableMapView<String, String> environment;
 
   bool hasHeader(String key) {

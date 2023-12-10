@@ -9,8 +9,10 @@ part of 'error.dart';
 ErrorResponse _$ErrorResponseFromJson(Map<String, dynamic> json) =>
     ErrorResponse(
       error: json['error'] as bool? ?? true,
-      messages:
-          (json['messages'] as List<dynamic>).map((e) => e as String).toList(),
+      messages: (json['messages'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       type: json['__type'] as String,
       context: json['context'] as Map<String, dynamic>?,
       stackTrace:

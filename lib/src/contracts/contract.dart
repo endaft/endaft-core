@@ -19,7 +19,7 @@ abstract class AppContract extends Equatable {
   /// This is ONLY available locally.
   /// This context is NOT transferred across the wire, and will not be included
   /// if this object is serialized.
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final Map<String, dynamic> _context = <String, dynamic>{};
 
   /// Attaches a contextual value to this instance and returns the [value].

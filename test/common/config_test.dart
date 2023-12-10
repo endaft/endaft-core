@@ -3,7 +3,7 @@ import 'package:endaft_core/client.dart';
 import 'package:endaft_core/client_test.dart';
 
 class MockConfig extends BaseConfig {
-  MockConfig(Map<String, String>? env) : super(env);
+  MockConfig(super.env);
 }
 
 void main() {
