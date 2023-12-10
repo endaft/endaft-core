@@ -67,6 +67,7 @@ jobs:
           accessToken: ''
           refreshToken: ''
           credentialJson: ${{secrets.PUB_DEV_CREDENTIALS}}
+          skipTests: true
 
       - uses: codecov/codecov-action@v2
         with:
